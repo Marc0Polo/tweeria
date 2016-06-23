@@ -17,23 +17,25 @@
 				{% for type in col.seq %}
 					{% if type == 1 %}
 						{% set i = i + 1 %}
-						<div class="new-thing-for-popup-item cluetip_popup_shop"
+						{# MAG 22/06/16: Ouch! Check length before!! #}
+						{% if new_things.ni|length > i %}
+						   <div class="new-thing-for-popup-item cluetip_popup_shop"
 							 data-thing_type="{{ type }}"
 								{% if type==1 %}
 									{% set item = new_things.ni[i] %}
-							 id="item-{{ item._id }}"
+									id="item-{{ item._id }}"
 									{% set parent = "item-"+item._id|string %}
 									{% set id = item._id %}
-							 title="|{% include "misc/_item_cluetip_without_img.jinja2" %}|"
+									title="|{% include "misc/_item_cluetip_without_img.jinja2" %}|"
 								{% elif type==2 %}
 
 									{% set spell = new_things.ni[i] %}
-							 id="spell-{{ spell._id }}"
+									id="spell-{{ spell._id }}"
 									{% set parent = "spell-"+spell._id|string %}
 									{% set id = spell._id %}
-							 title="|{% include "misc/_spell_cluetip.jinja2" %}|"
-								{% endif %}>
-
+							 		title="|{% include "misc/_spell_cluetip.jinja2" %}|"
+								{% endif %}
+								>
 							<a href="/u/item?id={{ id }}"><img src="{{ new_things.ni[i].img }}" alt="{{ new_things.ni[i].name }} "></a>
 							<a class="title" href="/u/item?id={{ id }}">{{ new_things.ni[i].name }}</a>
 
@@ -42,20 +44,22 @@
 
 							<a href="/{{ new_things.ni[i].author_name }}"
 							   class="author">{{ new_things.ni[i].author_name }}</a>
-						</div>
+						   </div>
+						{% endif %}
 
 					{% else %}
 						{% set a = a + 1 %}
-
-						<div class="big-new-item new-thing-for-popup-item"
+						{# MAG 22/06/16: Ouch! Check length before!! #}
+						{% if new_things.na|length > a %}
+						   <div class="big-new-item new-thing-for-popup-item"
 							 data-thing_type="{{ type }}"
 								{% set artwork = new_things.na[a] %}
 								{% if artwork.UID %}
-							 id="artwork-{{ artwork.UID }}"
+							 		id="artwork-{{ artwork.UID }}"
 									{% set parent = "artwork-"+artwork.UID|string %}
 									{% set id = artwork.UID %}
 								{% else %}
-							 id="artwork-{{ artwork._id }}"
+									id="artwork-{{ artwork._id }}"
 									{% set parent = "artwork-"+artwork._id|string %}
 									{% set id = artwork._id %}
 								{% endif %}
@@ -67,7 +71,8 @@
 
 							<a class="title" href="/u/artwork?id={{ id }}">{{ new_things.na[a].name }}</a>
 							<span class="author">{{ new_things.na[a].author_name }}</span>
-						</div>
+						   </div>
+						{% endif %}
 
 					{% endif %}
 
